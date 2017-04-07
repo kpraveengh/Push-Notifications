@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<button type="button" class="btn btn-primary" id="denperm">Permission</button>
+<button type="button" class="btn btn-primary" id="dentrigger">Trigger</button>
+
+
+<script type="text/javascript">
+var denperm=document.getElementById('denperm');
+var dentrigger=document.getElementById('dentrigger');
+var jsondata=null;
+
+denperm.addEventListener('click', function(e){
+  e.preventDefault();
+  if(!window.Notification){
+    alert('Not Supported');
+  }else{
+    Notification.requestPermission().then(function(p){
+      if(p=='denied'){
+        alert('You Denied to show Notifications');
+      }else if(p == 'granted'){
+          alert('You Allowed to show Notifications');
+      }
+    });
+  }
+});
+
+dentrigger.addEventListener('click', function(e){
+  e.preventDefault();
+  if(Notification.permission!=="default"){
+    $.get('dataget.php', function(data){
+      // var jsondata=JSON.stringify(data);
+      // dataa=JSON.parse(data);
+      console.log(data);
+      // var array_of_objects = eval("[" + my_string + "]");
+      // This executes the string as code, which is why we need to add the [] to make it an object.
+      // This is also one of the few legitimate uses for eval as its the fastest and easiest way. :D
+      var pushdata = eval( data );
+      console.log(pushdata);
+      for (var i=0; i<3; i++){
+      var notify= new Notification(
+        pushdata[i].title,
+        {'body':pushdata[i].description}
+      );
+      }
+    });
+  }
+});
+
+</script>
+
+
+</html>
