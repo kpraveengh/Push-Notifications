@@ -22,6 +22,6 @@ $resultstr.='{"title":"'.$row["title"].'","description":"'.$row["description"].'
   $resultstr=substr($resultstr,0,strlen($resultstr)-1)."]";
   echo $resultstr;
 }
-$con->close();
+//$con->close();
 
 ?>
